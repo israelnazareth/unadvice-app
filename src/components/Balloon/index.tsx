@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Separator from "../../assets/separator.svg";
 import Dice from "../../assets/dice.svg";
-import { fetchData } from "../../services/fetch";
+import list from "../../config/unadvices-list.json";
 import "./Balloon.css";
 
 interface Advice {
@@ -10,27 +10,17 @@ interface Advice {
 }
 
 export function Balloon() {
-  const [jsonData, setJsonData] = useState<Advice[] | []>([]);
   const [unadvice, setUnadvice] = useState<Advice | undefined>(undefined);
 
   const randomizeUnadvice = () => {
-    const random = Math.floor(Math.random() * jsonData.length);
-    const findAdvice = jsonData.find((advice) => advice.id === random);
+    const random = Math.floor(Math.random() * list.payload.length);
+    const findAdvice = list.payload.find((advice) => advice.id === random);
 
     setUnadvice(findAdvice);
   };
 
   useEffect(() => {
-    (async () => {
-      const response = await fetchData();
-      const random = Math.floor(Math.random() * response.length);
-      const findAdvice = response.find(
-        (advice: Advice) => advice.id === random
-      );
-
-      setUnadvice(findAdvice);
-      setJsonData(response);
-    })();
+    randomizeUnadvice();
   }, []);
 
   return (
