@@ -4,40 +4,32 @@ import Dice from "../../assets/dice.svg";
 import list from "../../config/unadvices-list.json";
 import "./Balloon.css";
 
-interface Advice {
-  id: number;
-  advice: string;
-}
-
 export function Balloon() {
-  const [unadvice, setUnadvice] = useState<Advice | undefined>(undefined);
+  const [unadvice, setUnadvice] = useState("");
 
-  const randomizeUnadvice = () => {
+  const getUnadvice = () => {
     const random = Math.floor(Math.random() * list.payload.length);
-    const findAdvice = list.payload.find((advice) => advice.id === random);
-
-    setUnadvice(findAdvice);
+    const foundAdvice = list.payload.find((_, index) => index === random);
+    if (foundAdvice) setUnadvice(foundAdvice);
   };
 
   useEffect(() => {
-    randomizeUnadvice();
+    getUnadvice();
   }, []);
 
   return (
     <div className="main-container">
       <div className="balloon-container">
-        <span className="advice-number">(DES)CONSELHO #{unadvice?.id}</span>
-        <p className="advice-text">{unadvice?.advice}</p>
+        <span className="advice-number">
+          (DES)CONSELHO #{list.payload.indexOf(unadvice!)}
+        </span>
+        <p className="advice-text">{unadvice}</p>
         <div className="separator-container">
           <div className="separator" />
           <img src={Separator} alt="separator" />
           <div className="separator" />
         </div>
-        <button
-          type="button"
-          className="dice-button"
-          onClick={randomizeUnadvice}
-        >
+        <button type="button" className="dice-button" onClick={getUnadvice}>
           <img src={Dice} alt="dice" />
         </button>
       </div>
