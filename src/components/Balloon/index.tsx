@@ -1,29 +1,21 @@
-import { useEffect, useState } from "react";
 import Separator from "../../assets/separator.svg";
 import Dice from "../../assets/dice.svg";
 import list from "../../config/unadvices-list.json";
 import "./Balloon.css";
 
-export function Balloon() {
-  const [unadvice, setUnadvice] = useState("");
+interface BallonProps {
+  unadvice: string;
+  getUnadvice: () => void;
+}
 
-  const getUnadvice = () => {
-    const random = Math.floor(Math.random() * list.payload.length);
-    const foundAdvice = list.payload.find((_, index) => index === random);
-    if (foundAdvice) setUnadvice(foundAdvice);
-  };
-
-  useEffect(() => {
-    getUnadvice();
-  }, []);
-
+export function Balloon({ unadvice, getUnadvice }: BallonProps) {
   return (
     <div className="main-container">
       <div className="balloon-container">
         <span className="advice-number">
-          (DES)CONSELHO #{list.payload.indexOf(unadvice!)}
+          (DES)CONSELHO #{list.payload.indexOf(unadvice) + 1}
         </span>
-        <p className="advice-text">{unadvice}</p>
+        <p className="advice-text">“{unadvice}”</p>
         <div className="separator-container">
           <div className="separator" />
           <img src={Separator} alt="separator" />

@@ -11,3 +11,8 @@ html, body {
   background-color: #1F2632;
   color: #CEE3E9;
 }
+
+.app {
+  display: flex;
+  flex-direction: column;
+}
